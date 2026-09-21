@@ -1,0 +1,24 @@
+{
+  "name": "pooly",
+  "version": "1.0.0",
+  "description": "Pooly",
+  "homepage": "https://github.com/Hiteshpy07/Pooly#readme",
+  "bugs": {
+    "url": "https://github.com/Hiteshpy07/Pooly/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hiteshpy07/Pooly.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@openai/agents": "^0.18.0",
+    "express": "^5.2.1"
+  }
+}
