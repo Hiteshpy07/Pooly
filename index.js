@@ -8,15 +8,13 @@ import {
 } from "@openai/agents";
 import { swiggyOAuthProvider } from "./swiggy-oauth.js";
 
-// Determine model provider (Gemini or OpenAI)
-let agentModel = undefined;
 
 if (process.env.GEMINI_API_KEY) {
   const geminiClient = new OpenAI({
     apiKey: process.env.GEMINI_API_KEY,
     baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
   });
-  const modelName = process.env.GEMINI_MODEL || "gemini-3.6-flash";
+  const modelName = "gemini-2.5-flash";
   agentModel = new OpenAIChatCompletionsModel(geminiClient, modelName);
   console.log(`🤖 Using Google Gemini (${modelName})`);
 } else if (process.env.OPENAI_API_KEY) {
