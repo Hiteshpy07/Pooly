@@ -6,15 +6,16 @@ import {
   MCPServerStreamableHttp,
   OpenAIChatCompletionsModel,
 } from "@openai/agents";
+import { fileURLToPath } from "node:url";
 import { swiggyOAuthProvider } from "./swiggy-oauth.js";
 
-
+let agentModel = undefined
 if (process.env.GEMINI_API_KEY) {
   const geminiClient = new OpenAI({
     apiKey: process.env.GEMINI_API_KEY,
     baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
   });
-  const modelName = "gemini-2.5-flash";
+  const modelName = process.env.GEMINI_MODEL || "gemini-3.6-flash";
   agentModel = new OpenAIChatCompletionsModel(geminiClient, modelName);
   console.log(`🤖 Using Google Gemini (${modelName})`);
 } else if (process.env.OPENAI_API_KEY) {
@@ -50,16 +51,35 @@ async function main() {
   await swiggyOAuthProvider.ensureAuthenticated();
   await swiggyInstamart.connect();
 
-  const runner = new Runner();
+  const response = await swiggyInstamart.callTool("create_address",
+    {
+      fullAddress: "TEST ADRESS BUILDING , gotham city , USA 696969",
+      addressLine: "TEST ADRESS BUILDING , gotham city , USA 696969",
+      city: "Gotham City",
+      postalCode: "696969",
+      addressCategory: "OTHER",
+      addressTag: "My Flat",
+      userName: "Hitesh",
+      userPhone: "0000000000"
+
+
+    }
+  )
+
+  console.log(response);
+ const runner = new Runner();
   console.log("Swiggy Instamart MCP Agent Connected!\n");
 
-  const query = process.argv.slice(2).join(" ") || "Check my saved addresses and search for bread, milk and eggs";
+  const query = process.argv.slice(2).join(" ") || "Check my  OTHER addresses and search for bread, milk and eggs";
   console.log(`Query: "${query}"\n`);
 
   const result = await runner.run(instamartAgent, query);
   console.log("\n Final Output:\n", result.finalOutput);
 }
 
-if (process.argv[1]?.endsWith("instamart.js")) {
+// Execute main function if run directly from terminal
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main().catch(console.error);
 }
+
+

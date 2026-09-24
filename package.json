@@ -15,6 +15,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "food": "node index.js",
+    "instamart": "node instamart.js",
+    "dev": "node instamart.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
