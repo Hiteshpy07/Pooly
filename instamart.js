@@ -51,23 +51,12 @@ async function main() {
   await swiggyOAuthProvider.ensureAuthenticated();
   await swiggyInstamart.connect();
 
-  const response = await swiggyInstamart.callTool("create_address",
-    {
-      fullAddress: "TEST ADRESS BUILDING , gotham city , USA 696969",
-      addressLine: "TEST ADRESS BUILDING , gotham city , USA 696969",
-      city: "Gotham City",
-      postalCode: "696969",
-      addressCategory: "OTHER",
-      addressTag: "My Flat",
-      userName: "Hitesh",
-      userPhone: "0000000000"
-
-
-    }
-  )
-
-  console.log(response);
- const runner = new Runner();
+  if(process.env.ADDRESS){
+  const addressData = JSON.parse(process.env.ADDRESS);
+  const response = await swiggyInstamart.callTool("create_address", addressData);
+  console.log("Create Address Response:", response);
+}
+  const runner = new Runner();
   console.log("Swiggy Instamart MCP Agent Connected!\n");
 
   const query = process.argv.slice(2).join(" ") || "Check my  OTHER addresses and search for bread, milk and eggs";
